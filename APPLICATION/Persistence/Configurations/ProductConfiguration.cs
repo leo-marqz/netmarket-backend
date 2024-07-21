@@ -18,12 +18,12 @@ namespace APPLICATION.Persistence.Configurations
             builder.HasOne((product) => product.Brand)
                 .WithMany()
                 .HasForeignKey((product) => product.BrandId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne((product) => product.Category)
                 .WithMany()
                 .HasForeignKey((product) => product.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
