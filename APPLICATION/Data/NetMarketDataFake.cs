@@ -20,7 +20,8 @@ namespace APPLICATION.Data
                 if (!context.Brands.Any())
                 {
                     string data = File.ReadAllText("../APPLICATION/Data/DataFake/brands.json");
-                    var brands = JsonSerializer.Deserialize<List<Brand>>(data);
+                    List<Brand> brands = JsonSerializer.Deserialize<List<Brand>>(data);
+
                     foreach (var brand in brands)
                     {
                         context.Brands.Add(brand);
@@ -31,7 +32,8 @@ namespace APPLICATION.Data
                 if(!context.Categories.Any())
                 {
                     string data = File.ReadAllText("../APPLICATION/Data/DataFake/categories.json");
-                    var categories = JsonSerializer.Deserialize<List<Category>>(data);
+                    List<Category> categories = JsonSerializer.Deserialize<List<Category>>(data);
+
                     foreach (var category in categories)
                     {
                         context.Categories.Add(category);
@@ -42,7 +44,8 @@ namespace APPLICATION.Data
                 if (!context.Products.Any())
                 {
                     string data = File.ReadAllText("../APPLICATION/Data/DataFake/products.json");
-                    var products = JsonSerializer.Deserialize<List<Product>>(data);
+                    List<Product> products = JsonSerializer.Deserialize<List<Product>>(data);
+
                     foreach (var product in products)
                     {
                         context.Products.Add(product);

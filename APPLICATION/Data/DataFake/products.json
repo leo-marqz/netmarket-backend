@@ -1,56 +1,56 @@
 [
   {
-    "name": "Pantalon",
-    "description": "Pantalon casual para eventos sports",
-    "stock": 100,
-    "brandId": 1,
-    "categoryId": 1,
-    "price": 120,
-    "image": ""
+    "Name": "Pantalon",
+    "Description": "Pantalon casual para eventos sports",
+    "Stock": 100,
+    "BrandId": 1,
+    "CategoryId": 1,
+    "Price": 120,
+    "Image": ""
   },
   {
-    "name": "Camisa",
-    "description": "Camisa para eventos casuales",
-    "stock": 600,
-    "brandId": 2,
-    "categoryId": 2,
-    "price": 60,
-    "image": ""
+    "Name": "Camisa",
+    "Description": "Camisa para eventos casuales",
+    "Stock": 600,
+    "BrandId": 2,
+    "CategoryId": 2,
+    "Price": 60,
+    "Image": ""
   },
   {
-    "name": "Camiseta",
-    "description": "Camisa para paseos al aire libre",
-    "stock": 500,
-    "brandId": 3,
-    "categoryId": 1,
-    "price": 50,
-    "image": ""
+    "Name": "Camiseta",
+    "Description": "Camisa para paseos al aire libre",
+    "Stock": 500,
+    "BrandId": 3,
+    "CategoryId": 1,
+    "Price": 50,
+    "Image": ""
   },
   {
-    "name": "Zapato",
-    "description": "Zapato para eventos especiales",
-    "stock": 1000,
-    "brandId": 4,
-    "categoryId": 1,
-    "price": 120,
-    "image": ""
+    "Name": "Zapato",
+    "Description": "Zapato para eventos especiales",
+    "Stock": 1000,
+    "BrandId": 4,
+    "CategoryId": 1,
+    "Price": 120,
+    "Image": ""
   },
   {
-    "name": "Tenis",
-    "description": "Para correr al aire libre",
-    "stock": 600,
-    "brandId": 2,
-    "categoryId": 3,
-    "price": 120,
-    "image": ""
+    "Name": "Tenis",
+    "Description": "Para correr al aire libre",
+    "Stock": 600,
+    "BrandId": 2,
+    "CategoryId": 3,
+    "Price": 120,
+    "Image": ""
   },
   {
-    "name": "Bordado",
-    "description": "Traje de Bano",
-    "stock": 200,
-    "brandId": 1,
-    "categoryId": 4,
-    "price": 500,
-    "image": ""
+    "Name": "Bordado",
+    "Description": "Traje de Bano",
+    "Stock": 200,
+    "BrandId": 1,
+    "CategoryId": 4,
+    "Price": 500,
+    "Image": ""
   }
 ]

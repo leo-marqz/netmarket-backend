@@ -1,4 +1,5 @@
 
+using APPLICATION.Data;
 using APPLICATION.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace API;
 
 public class Program
 {
-    private static async Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
 
@@ -25,6 +26,8 @@ public class Program
             {
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 await context.Database.MigrateAsync();
+
+                await NetMarketDataFake.LoadAsync(context, loggerFactory);
             }
             catch (Exception ex)
             {

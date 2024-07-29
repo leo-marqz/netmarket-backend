@@ -1,20 +1,20 @@
 [
   {
-    "name": "Ropa de Varones"
+    "Name": "Ropa de Varones"
   },
   {
-    "name": "Ropa de Mujeres"
+    "Name": "Ropa de Mujeres"
   },
   {
-    "name": "Ropa para Ninos"
+    "Name": "Ropa para Ninos"
   },
   {
-    "name": "Trajes de Bano"
+    "Name": "Trajes de Bano"
   },
   {
-    "name": "Invierno"
+    "Name": "Invierno"
   },
   {
-    "name": "Verano"
+    "Name": "Verano"
   }
 ]
