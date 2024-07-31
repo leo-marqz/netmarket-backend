@@ -1,6 +1,7 @@
 ﻿
 using APPLICATION.Persistence.Contracts;
 using DOMAIN.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,14 +16,20 @@ public class ProductRepository : IProductRepository
         this.context = dbContext;
     }
 
-    public Task<Product> getProductByIdAsync(int id)
+    public async Task<Product> getProductByIdAsync(int id)
     {
-        throw new System.NotImplementedException();
+        return await this.context.Products
+            .Include(x=>x.Category)
+            .Include(x=>x.Brand)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task<IReadOnlyList<Product>> getProductsAsync()
+    public async Task<IReadOnlyList<Product>> getProductsAsync()
     {
-        throw new System.NotImplementedException();
+        return await this.context.Products
+            .Include(x=>x.Category)
+            .Include(x=>x.Brand)
+            .ToListAsync();
     }
 }
 

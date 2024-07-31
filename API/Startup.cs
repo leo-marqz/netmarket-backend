@@ -27,6 +27,7 @@ public class Startup
 
         // Add the Repositories
         services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
         services.AddRouting(options => options.LowercaseUrls = true);
