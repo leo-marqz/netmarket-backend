@@ -1,5 +1,7 @@
 ﻿using API.DTOs.Products;
 using APPLICATION.Persistence.Contracts;
+using APPLICATION.Persistence.Specifications;
+using APPLICATION.Persistence.Specifications.SpecModels;
 using DOMAIN.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,19 +17,20 @@ namespace API.Controllers
         /// <summary>
         /// IProductRepository repository
         /// </summary>
-        private readonly IProductRepository repository;
+        private readonly IGenericRepository<Product> repository;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IGenericRepository<Product> genericRepository)
         {
-            this.repository = productRepository;
+            this.repository = genericRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<ProductDto>>> GetProducts()
         {
             List<ProductDto> data = null;
+            ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications();
 
-            IReadOnlyList<Product> products = await this.repository.getProductsAsync();
+            IReadOnlyList<Product> products = await this.repository.getAllWithSpecificationsAsync(specification);
 
             if(products == null)
             {
@@ -55,7 +58,9 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await this.repository.getProductByIdAsync(id);
+            ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications(id: id);
+
+            var product = await this.repository.getByIdWithSpecificationAsync(specification);
 
             if(product == null)
             {

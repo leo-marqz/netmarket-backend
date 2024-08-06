@@ -1,8 +1,11 @@
 ﻿
 
 using APPLICATION.Persistence.Contracts;
+using APPLICATION.Persistence.Specifications;
 using DOMAIN.Common;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace APPLICATION.Persistence.Implements;
@@ -23,24 +26,56 @@ public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase
         return entity;
     }
 
-    public Task<T> deleteByIdAsync(int id)
+    public async Task<T> deleteByIdAsync(int id)
     {
-        throw new System.NotImplementedException();
+        var entity = await this.context.Set<T>().FindAsync(id);
+        if (entity == null)
+        {
+            throw new System.Exception("Entity not found");
+        }
+
+        this.context.Set<T>().Remove(entity);
+        await this.context.SaveChangesAsync();
+
+        return entity;
     }
 
-    public Task<IReadOnlyList<T>> getAllAsync()
+    public async Task<IReadOnlyList<T>> getAllAsync()
     {
-        throw new System.NotImplementedException();
+        return await this.context.Set<T>().ToListAsync();
     }
 
-    public Task<T> getByIdAsync(int id)
+    
+
+    public async Task<T> getByIdAsync(int id)
     {
-        throw new System.NotImplementedException();
+        return await this.context.Set<T>().FindAsync(id);
     }
+
+    
 
     public Task<T> updateAsync(T entity)
     {
         throw new System.NotImplementedException();
+    }
+
+
+    //-----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
+
+    public async Task<T> getByIdWithSpecificationAsync(ISpecification<T> specification)
+    {
+        return await this.applySpecification(specification).FirstOrDefaultAsync();
+    }
+
+    public async Task<IReadOnlyList<T>> getAllWithSpecificationsAsync(ISpecification<T> specification)
+    {
+        return await this.applySpecification(specification).ToListAsync();
+    }
+
+    private IQueryable<T> applySpecification(ISpecification<T> specification)
+    {
+        return SpecificationEvaluator<T>.GetQuery(this.context.Set<T>().AsQueryable(), specification);
     }
 }
 
