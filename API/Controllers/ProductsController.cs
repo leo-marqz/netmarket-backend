@@ -1,4 +1,5 @@
 ﻿using API.DTOs.Products;
+using API.Handlers;
 using APPLICATION.Persistence.Contracts;
 using APPLICATION.Persistence.Specifications;
 using APPLICATION.Persistence.Specifications.SpecModels;
@@ -11,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+    
+    public class ProductsController : BaseApiController
     {
         /// <summary>
         /// IProductRepository repository
@@ -56,7 +56,7 @@ namespace API.Controllers
 
             if(product == null)
             {
-                return NotFound();
+                return NotFound( new CodeErrorResponse(404));
             }
 
             var data = this.mapper.Map<Product, ProductDto>( product );

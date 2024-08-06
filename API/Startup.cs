@@ -45,6 +45,8 @@ public class Startup
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseStatusCodePagesWithReExecute("/errors", "?code={0}"); // This is a middleware that will redirect to the errors controller
+
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();

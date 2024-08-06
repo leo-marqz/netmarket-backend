@@ -2,9 +2,8 @@
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+
+    public class AuthController : BaseApiController
     {
         [HttpGet("test")]
         public IActionResult Get()

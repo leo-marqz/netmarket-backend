@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoriesController : ControllerBase
+    
+    public class CategoriesController : BaseApiController
     {
         private readonly IGenericRepository<Category> repository;
 
