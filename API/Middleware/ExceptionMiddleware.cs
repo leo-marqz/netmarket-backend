@@ -36,7 +36,12 @@ namespace API.Middleware
                     ? new CodeErrorException(StatusCodes.Status500InternalServerError, ex.Message, ex.StackTrace.ToString())
                     : new CodeErrorException(StatusCodes.Status500InternalServerError);
 
-                var result = System.Text.Json.JsonSerializer.Serialize(response);
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+                };
+
+                var result = System.Text.Json.JsonSerializer.Serialize(response, options);
 
                 await context.Response.WriteAsync(result);
             }

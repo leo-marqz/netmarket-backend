@@ -1,4 +1,5 @@
 ﻿
+using API.Middleware;
 using API.Services;
 using APPLICATION.Persistence;
 using APPLICATION.Persistence.Contracts;
@@ -45,6 +46,7 @@ public class Startup
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseMiddleware<ExceptionMiddleware>(); // This is a middleware that will handle exceptions
         app.UseStatusCodePagesWithReExecute("/errors", "?code={0}"); // This is a middleware that will redirect to the errors controller
 
         app.UseRouting();
