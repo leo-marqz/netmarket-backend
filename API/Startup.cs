@@ -1,4 +1,5 @@
 ﻿
+using API.Services;
 using APPLICATION.Persistence;
 using APPLICATION.Persistence.Contracts;
 using APPLICATION.Persistence.Implements;
@@ -28,6 +29,9 @@ public class Startup
         // Add the Repositories
         services.AddTransient<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+        //Services 
+        services.AddAutoMapper(typeof(AutoMappingProfile));
 
 
         services.AddRouting(options => options.LowercaseUrls = true);

@@ -2,6 +2,7 @@
 using APPLICATION.Persistence.Contracts;
 using APPLICATION.Persistence.Specifications;
 using APPLICATION.Persistence.Specifications.SpecModels;
+using AutoMapper;
 using DOMAIN.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -18,10 +19,12 @@ namespace API.Controllers
         /// IProductRepository repository
         /// </summary>
         private readonly IGenericRepository<Product> repository;
+        private IMapper mapper;
 
-        public ProductsController(IGenericRepository<Product> genericRepository)
+        public ProductsController(IGenericRepository<Product> genericRepository, IMapper mapper)
         {
             this.repository = genericRepository;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -38,24 +41,13 @@ namespace API.Controllers
             }
             else
             {
-                data = products.Select(x => new ProductDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    Stock = x.Stock,
-                    Image = x.Image,
-                    Price = x.Price,
-                    Category = x.Category.Name,
-                    Brand = x.Brand.Name
-
-                }).ToList();
+                data = products.Select(product => this.mapper.Map<Product, ProductDto>( product) ).ToList();
             }
 
             return Ok(data);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications(id: id);
@@ -67,17 +59,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var data = new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Stock = product.Stock,
-                Image = product.Image,
-                Price = product.Price,
-                Category = product.Category.Name,
-                Brand = product.Brand.Name
-            };
+            var data = this.mapper.Map<Product, ProductDto>( product );
 
             return Ok(data);
         }

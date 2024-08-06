@@ -8,14 +8,14 @@ namespace APPLICATION.Persistence.Specifications
     {
         public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
         {
-            if(specification != null)
+            if(specification.Criteria != null)
             {
                 query = query.Where(specification.Criteria);
             }
 
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
-            return query;
+            return query; 
         }
     }
 }

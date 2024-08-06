@@ -73,6 +73,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase
         return await this.applySpecification(specification).ToListAsync();
     }
 
+
     private IQueryable<T> applySpecification(ISpecification<T> specification)
     {
         return SpecificationEvaluator<T>.GetQuery(this.context.Set<T>().AsQueryable(), specification);
