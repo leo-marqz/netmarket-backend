@@ -19,5 +19,6 @@ public interface IGenericRepository<T> where T : ModelBase
 
     Task<T> getByIdWithSpecificationAsync(ISpecification<T> especification);
     Task<IReadOnlyList<T>> getAllWithSpecificationsAsync(ISpecification<T> especification);
+    Task<int> countAsync(ISpecification<T> especification);
 }
 

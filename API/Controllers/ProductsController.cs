@@ -1,4 +1,5 @@
-﻿using API.DTOs.Products;
+﻿using API.DTOs;
+using API.DTOs.Products;
 using API.Handlers;
 using APPLICATION.Persistence.Contracts;
 using APPLICATION.Persistence.Specifications;
@@ -6,13 +7,14 @@ using APPLICATION.Persistence.Specifications.SpecModels;
 using AutoMapper;
 using DOMAIN.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    
+
     public class ProductsController : BaseApiController
     {
         /// <summary>
@@ -28,23 +30,29 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> GetProducts()
+        public async Task<ActionResult<HttpApiResponse<ProductDto>>> GetProducts([FromQuery] ProductParamsSpecifications productParams)
         {
-            List<ProductDto> data = null;
-            ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications();
-
+            ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications(productParams);
             IReadOnlyList<Product> products = await this.repository.getAllWithSpecificationsAsync(specification);
 
-            if(products == null)
-            {
-                data = new List<ProductDto>();
-            }
-            else
-            {
-                data = products.Select(product => this.mapper.Map<Product, ProductDto>( product) ).ToList();
-            }
+            ISpecification<Product> specCount = new ProductWithPaginationSpecification(productParams);
+            int totalProducts = await this.repository.countAsync(specCount);
 
-            return Ok(data);
+            var getPages = Math.Ceiling( Convert.ToDecimal(totalProducts) / Convert.ToDecimal(productParams.PageSize) );
+            var totalPages = Convert.ToInt32(getPages);
+
+            List<ProductDto> data = this.mapper
+                .Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products)
+                .ToList();
+
+            return Ok(new HttpApiResponse<IReadOnlyList<ProductDto>>()
+            {
+                Count = totalProducts,
+                Data = data,
+                PageIndex = productParams.PageIndex,
+                TotalPages = totalPages,
+                PageSize = productParams.PageSize,
+            });
         }
 
         [HttpGet("{id:int}")]

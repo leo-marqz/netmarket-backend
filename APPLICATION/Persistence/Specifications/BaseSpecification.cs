@@ -19,7 +19,7 @@ namespace APPLICATION.Persistence.Specifications
 
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         
-        protected void AddInclude(Expression<Func<T, object>> includeExpression)
+        protected void addInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
@@ -40,8 +40,17 @@ namespace APPLICATION.Persistence.Specifications
         }
 
 
-        public int Take { get; set; }
+        public int Take { get; private set; }
 
-        public int Skip { get; set; }
+        public int Skip { get; private set; }
+
+        public bool IsPagingEnabled { get; private set; }
+
+        protected void applyPaging(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
+        }
     }
 }
