@@ -25,7 +25,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Add the DbContext
-        services.AddDbContext<ApplicationDbContext>( (options) => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")) );
+        services.AddDbContext<ApplicationDbContext>((options) => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")) );
 
         // Add the Repositories
         services.AddTransient<IProductRepository, ProductRepository>();
@@ -37,6 +37,17 @@ public class Startup
 
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllers();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", policy =>
+            {
+                policy.AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .WithOrigins("*");
+            });
+
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,6 +61,7 @@ public class Startup
         app.UseStatusCodePagesWithReExecute("/errors", "?code={0}"); // This is a middleware that will redirect to the errors controller
 
         app.UseRouting();
+        app.UseCors("CorsPolicy");
         app.UseAuthentication();
         app.UseAuthorization();
 
