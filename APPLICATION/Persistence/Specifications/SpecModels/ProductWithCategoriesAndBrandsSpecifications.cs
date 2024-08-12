@@ -5,7 +5,8 @@ namespace APPLICATION.Persistence.Specifications.SpecModels
     public class ProductWithCategoriesAndBrandsSpecifications : BaseSpecification<Product>
     {
         public ProductWithCategoriesAndBrandsSpecifications(ProductParamsSpecifications productParams) 
-            : base(x => (!productParams.Category.HasValue || x.CategoryId == productParams.Category) &&
+            : base(x => (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+                        (!productParams.Category.HasValue || x.CategoryId == productParams.Category) &&
                         (!productParams.Brand.HasValue || x.BrandId == productParams.Brand)   
             )
         {

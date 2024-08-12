@@ -20,32 +20,32 @@ namespace API.Controllers
         /// <summary>
         /// IProductRepository repository
         /// </summary>
-        private readonly IGenericRepository<Product> repository;
-        private IMapper mapper;
+        private readonly IGenericRepository<Product> _repository;
+        private IMapper _mapper;
 
         public ProductsController(IGenericRepository<Product> genericRepository, IMapper mapper)
         {
-            this.repository = genericRepository;
-            this.mapper = mapper;
+            _repository = genericRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<HttpApiResponse<ProductDto>>> GetProducts([FromQuery] ProductParamsSpecifications productParams)
+        public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductParamsSpecifications productParams)
         {
             ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications(productParams);
-            IReadOnlyList<Product> products = await this.repository.getAllWithSpecificationsAsync(specification);
+            IReadOnlyList<Product> products = await _repository.getAllWithSpecificationsAsync(specification);
 
             ISpecification<Product> specCount = new ProductWithPaginationSpecification(productParams);
-            int totalProducts = await this.repository.countAsync(specCount);
+            int totalProducts = await _repository.countAsync(specCount);
 
             var getPages = Math.Ceiling( Convert.ToDecimal(totalProducts) / Convert.ToDecimal(productParams.PageSize) );
             var totalPages = Convert.ToInt32(getPages);
 
-            List<ProductDto> data = this.mapper
+            List<ProductDto> data = _mapper
                 .Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products)
                 .ToList();
 
-            return Ok(new HttpApiResponse<IReadOnlyList<ProductDto>>()
+            return Ok(new Pagination<IReadOnlyList<ProductDto>>()
             {
                 Count = totalProducts,
                 Data = data,
@@ -60,14 +60,14 @@ namespace API.Controllers
         {
             ISpecification<Product> specification = new ProductWithCategoriesAndBrandsSpecifications(id: id);
 
-            var product = await this.repository.getByIdWithSpecificationAsync(specification);
+            var product = await _repository.getByIdWithSpecificationAsync(specification);
 
             if(product == null)
             {
                 return NotFound( new CodeErrorResponse(404));
             }
 
-            var data = this.mapper.Map<Product, ProductDto>( product );
+            var data = _mapper.Map<Product, ProductDto>( product );
 
             return Ok(data);
         }

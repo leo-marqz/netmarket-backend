@@ -6,7 +6,8 @@ namespace APPLICATION.Persistence.Specifications.SpecModels
     {
         public ProductWithPaginationSpecification(ProductParamsSpecifications productParams)
             
-            : base(x => (!productParams.Category.HasValue || x.CategoryId == productParams.Category) &&
+            : base(x => (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+                        (!productParams.Category.HasValue || x.CategoryId == productParams.Category) &&
                         (!productParams.Brand.HasValue || x.BrandId == productParams.Brand)
             )
         {

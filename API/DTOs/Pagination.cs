@@ -1,6 +1,6 @@
 ﻿namespace API.DTOs
 {
-    public class HttpApiResponse<T> where T : class
+    public class Pagination<T> where T : class
     {
         public int Count { get; set; }
         public int PageIndex { get; set; }
