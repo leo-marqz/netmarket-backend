@@ -20,7 +20,7 @@ public class Program
         using (var scope = host.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
-            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>(); //logs
 
             try
             {
